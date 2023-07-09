@@ -16,3 +16,7 @@ background-color: lightblue;
 .light {
   background-color: aliceblue;
 }
+.red {
+  background-color: red;
+  text-decoration: line-through;
+}

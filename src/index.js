@@ -78,6 +78,24 @@ class Player {
   }
 }
 
+function show(player) {
+  var count = 0;
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      const div = document.createElement("div");
+      div.id = i.toString() + j.toString();
+      if (player.gb.board[i][j]) {
+        div.textContent = player.gb.board[i][j].size;
+        div.classList.add("blue");
+      } else div.textContent = player.gb.board[i][j];
+      div.classList.add("sea");
+      content.append(div);
+
+      count++;
+    }
+  }
+}
+
 function startGame(player) {
   //player setup
   var p1 = new Player();
@@ -99,11 +117,14 @@ function startGame(player) {
       }
     }
   }
+  show(p2);
   console.log(p2);
   //combat
   var turn = 0;
+  var p1t = [];
+  var p2t = [];
   while (
-    ( p1.ships[0].isSunk() &&
+    (p1.ships[0].isSunk() &&
       p1.ships[1].isSunk() &&
       p1.ships[2].isSunk() &&
       p1.ships[3].isSunk() &&
@@ -116,21 +137,35 @@ function startGame(player) {
   ) {
     //p1
     if (turn) {
-      var c1 = Math.floor(Math.random() * 10);
-      var c2 = Math.floor(Math.random() * 10);
-      if (p1.gb.board[c1][c2]) {
-        console.log("hit");
-        p1.gb.board[c1][c2].hit();
-      } else console.log("miss");
+      console.log(p1t)
+      var t = 1;
+      while (t) {
+        var c1 = Math.floor(Math.random() * 10);
+        var c2 = Math.floor(Math.random() * 10);
+        if (!p1t.includes(Number(c1.toString()+c2.toString()))) {
+          t = !t
+          p1t.push(Number(c1.toString()+c2.toString()))
+          if (p1.gb.board[c1][c2]) {
+            p1.gb.board[c1][c2].hit();
+          } 
+        }
+      }
     }
     //p2
     else {
-      var c1 = Math.floor(Math.random() * 10);
-      var c2 = Math.floor(Math.random() * 10);
-      if (p2.gb.board[c1][c2]) {
-        console.log("hit");
-        p2.gb.board[c1][c2].hit();
-      } else console.log("miss");
+      var t = 1;
+      while (t) {
+        var c1 = Math.floor(Math.random() * 10);
+        var c2 = Math.floor(Math.random() * 10);
+        if (!p2t.includes(Number(c1.toString()+c2.toString()))) {
+          t = !t
+          p2t.push(Number(c1.toString()+c2.toString()))
+          if (p2.gb.board[c1][c2]) {
+            p2.gb.board[c1][c2].hit();
+            document.getElementById((c1.toString()+c2.toString())).classList.add('red')
+          } 
+        }
+      }
     }
     turn = !turn;
   }
