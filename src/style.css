@@ -1,0 +1,18 @@
+.content {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+.sea {
+  display: grid;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .125);
+  margin: 5px;
+  padding: 5px;
+  justify-content: center;
+}
+.blue {
+background-color: lightblue;
+}
+.light {
+  background-color: aliceblue;
+}

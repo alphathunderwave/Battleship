@@ -30,38 +30,76 @@ class Gameboard {
 }
 
 class Player {
-  constructor(){
-    this.gb = new Gameboard()
-    this.ships = []
-    var sizeList = [5,4,3,3,2]
+  constructor() {
+    this.gb = new Gameboard();
+    this.ships = [];
+    var sizeList = [5, 4, 3, 3, 2];
     for (let index = 1; index < 6; index++) {
-      this.ships.push(new Ship(sizeList[index-1]))
-      
+      this.ships.push(new Ship(sizeList[index - 1]));
     }
-
   }
-  placeShip(ship,pos,dir){
-    if (dir){
-      for (let i = 0; i < this.ships[ship].size; i++) {
-        this.gb.board[pos[0]+i][pos[1]] = this.ships[ship]
+  checkPlace(ship, pos, dir) {
+    try {
+      if (dir) {
+        if (this.ships[ship].size + pos[0] <= 10) {
+          for (let i = 0; i < this.ships[ship].size; i++) {
+            if (this.gb.board[pos[0] + i][pos[1]]) {
+              return false;
+            }
+          }
+        } else return false;
+      } else {
+        if (this.ships[ship].size + pos[1] <= 10) {
+          for (let i = 0; i < this.ships[ship].size; i++) {
+            if (this.gb.board[pos[0]][pos[1] + i]) {
+              return false;
+            }
+          }
+        } else return false;
       }
+      return true;
+    } catch (error) {
+      return false;
     }
-    else{
-      for (let i = 0; i < this.ships[ship].size; i++) {
-        console.log(i)
-        this.gb.board[pos[0]][pos[1]+i] = this.ships[ship]
+  }
+  placeShip(ship, pos, dir) {
+    if (this.checkPlace(ship, pos, dir)) {
+      if (dir) {
+        for (let i = 0; i < this.ships[ship].size; i++) {
+          this.gb.board[pos[0] + i][pos[1]] = this.ships[ship];
+        }
+      } else {
+        for (let i = 0; i < this.ships[ship].size; i++) {
+          this.gb.board[pos[0]][pos[1] + i] = this.ships[ship];
+        }
       }
-
-    }
+      return true;
+    } else return false;
   }
 }
 
-
-var p1 = new Player
-p1.placeShip(0,[0,0],1)
-p1.placeShip(1,[0,1],1)
-p1.placeShip(2,[0,2],1)
-p1.placeShip(3,[0,3],1)
-p1.placeShip(4,[0,4],1)
-console.log(p1)
-
+function startGame(player) {
+  //player setup
+  var p1 = new Player();
+  p1.placeShip(0, [0, 5], 0);
+  p1.placeShip(1, [1, 5], 0);
+  p1.placeShip(2, [2, 5], 0);
+  p1.placeShip(3, [3, 5], 0);
+  p1.placeShip(4, [4, 5], 0);
+  console.log(p1);
+  var p2 = new Player()
+  for (let i = 0; i < 5; i++) {
+    var complete = true 
+    while (complete) {
+      var r1 = Math.floor(Math.random() *10)
+      var r2 = Math.floor(Math.random() *10)
+      var r3 = Math.round(Math.random() *1)
+      if(p2.placeShip(i,[r1,r2],r3)){
+        complete = false
+      }
+    }
+  }
+  console.log(p2)
+  //combat
+}
+startGame();
