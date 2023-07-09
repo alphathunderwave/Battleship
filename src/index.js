@@ -12,8 +12,8 @@ class Ship {
   }
   isSunk() {
     if (this.size == this.hits) {
-      return true;
-    } else return false;
+      return false;
+    } else return true;
   }
 }
 
@@ -87,19 +87,54 @@ function startGame(player) {
   p1.placeShip(3, [3, 5], 0);
   p1.placeShip(4, [4, 5], 0);
   console.log(p1);
-  var p2 = new Player()
+  var p2 = new Player();
   for (let i = 0; i < 5; i++) {
-    var complete = true 
+    var complete = true;
     while (complete) {
-      var r1 = Math.floor(Math.random() *10)
-      var r2 = Math.floor(Math.random() *10)
-      var r3 = Math.round(Math.random() *1)
-      if(p2.placeShip(i,[r1,r2],r3)){
-        complete = false
+      var r1 = Math.floor(Math.random() * 10);
+      var r2 = Math.floor(Math.random() * 10);
+      var r3 = Math.round(Math.random() * 1);
+      if (p2.placeShip(i, [r1, r2], r3)) {
+        complete = false;
       }
     }
   }
-  console.log(p2)
+  console.log(p2);
   //combat
+  var turn = 0;
+  while (
+    ( p1.ships[0].isSunk() &&
+      p1.ships[1].isSunk() &&
+      p1.ships[2].isSunk() &&
+      p1.ships[3].isSunk() &&
+      p1.ships[4].isSunk()) ||
+    (p2.ships[0].isSunk() &&
+      p2.ships[1].isSunk() &&
+      p2.ships[2].isSunk() &&
+      p2.ships[3].isSunk() &&
+      p2.ships[4].isSunk())
+  ) {
+    //p1
+    if (turn) {
+      var c1 = Math.floor(Math.random() * 10);
+      var c2 = Math.floor(Math.random() * 10);
+      if (p1.gb.board[c1][c2]) {
+        console.log("hit");
+        p1.gb.board[c1][c2].hit();
+      } else console.log("miss");
+    }
+    //p2
+    else {
+      var c1 = Math.floor(Math.random() * 10);
+      var c2 = Math.floor(Math.random() * 10);
+      if (p2.gb.board[c1][c2]) {
+        console.log("hit");
+        p2.gb.board[c1][c2].hit();
+      } else console.log("miss");
+    }
+    turn = !turn;
+  }
+  if (turn) console.log("p2 wins");
+  else console.log("p1 wins");
 }
 startGame();
