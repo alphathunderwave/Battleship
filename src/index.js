@@ -12,8 +12,8 @@ class Ship {
   }
   isSunk() {
     if (this.size == this.hits) {
-      return false;
-    } else return true;
+      return true;
+    } else return false;
   }
 }
 
@@ -34,8 +34,8 @@ class Player {
     this.gb = new Gameboard();
     this.ships = [];
     var sizeList = [5, 4, 3, 3, 2];
-    for (let index = 1; index < 6; index++) {
-      this.ships.push(new Ship(sizeList[index - 1]));
+    for (let index = 0; index < 5; index++) {
+      this.ships.push(new Ship(sizeList[index]));
     }
   }
   checkPlace(ship, pos, dir) {
@@ -124,30 +124,34 @@ function startGame(player) {
   var p1t = [];
   var p2t = [];
   while (
-    (p1.ships[0].isSunk() &&
+    !(true &&
+      p1.ships[0].isSunk() &&
       p1.ships[1].isSunk() &&
       p1.ships[2].isSunk() &&
       p1.ships[3].isSunk() &&
-      p1.ships[4].isSunk()) ||
-    (p2.ships[0].isSunk() &&
+      p1.ships[4].isSunk()
+    ) ||
+    !(true &&
+      p2.ships[0].isSunk() &&
       p2.ships[1].isSunk() &&
       p2.ships[2].isSunk() &&
       p2.ships[3].isSunk() &&
-      p2.ships[4].isSunk())
+      p2.ships[4].isSunk()
+    )
   ) {
     //p1
     if (turn) {
-      console.log(p1t)
+      console.log(p1t);
       var t = 1;
       while (t) {
         var c1 = Math.floor(Math.random() * 10);
         var c2 = Math.floor(Math.random() * 10);
-        if (!p1t.includes(Number(c1.toString()+c2.toString()))) {
-          t = !t
-          p1t.push(Number(c1.toString()+c2.toString()))
+        if (!p1t.includes(Number(c1.toString() + c2.toString()))) {
+          t = !t;
+          p1t.push(Number(c1.toString() + c2.toString()));
           if (p1.gb.board[c1][c2]) {
             p1.gb.board[c1][c2].hit();
-          } 
+          }
         }
       }
     }
@@ -157,13 +161,19 @@ function startGame(player) {
       while (t) {
         var c1 = Math.floor(Math.random() * 10);
         var c2 = Math.floor(Math.random() * 10);
-        if (!p2t.includes(Number(c1.toString()+c2.toString()))) {
-          t = !t
-          p2t.push(Number(c1.toString()+c2.toString()))
+        if (!p2t.includes(Number(c1.toString() + c2.toString()))) {
+          t = !t;
+          p2t.push(Number(c1.toString() + c2.toString()));
+          document
+          .getElementById(c1.toString() + c2.toString())
+          .classList.add("strike");
+
           if (p2.gb.board[c1][c2]) {
             p2.gb.board[c1][c2].hit();
-            document.getElementById((c1.toString()+c2.toString())).classList.add('red')
-          } 
+            document
+              .getElementById(c1.toString() + c2.toString())
+              .classList.add("red");
+          }
         }
       }
     }

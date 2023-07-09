@@ -18,5 +18,8 @@ background-color: lightblue;
 }
 .red {
   background-color: red;
+}
+.strike {
   text-decoration: line-through;
+
 }
